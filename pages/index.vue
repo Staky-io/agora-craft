@@ -13,7 +13,7 @@
         class="grid gap-16"
       >
         <nuxt-link
-          v-for="([uid, proposal]) in Object.entries(proposals).sort((a, b) => parseInt(b[0], 16) - parseInt(a[0], 16))"
+          v-for="([uid, proposal]) in Object.entries(proposals).filter((u) => !blasklistedIds.includes(u.uid)).sort((a, b) => parseInt(b[0], 16) - parseInt(a[0], 16))"
           :key="`proposal-${uid}`"
           :to="{ name: 'proposal-uid', params: { uid } }"
         >
@@ -35,7 +35,7 @@ import { storeToRefs } from 'pinia'
 import { useProposalsStore } from '@/stores/proposals'
 
 const proposalsStore = useProposalsStore()
-
+const blasklistedIds = ["0x8"]
 const { fetchProposals } = proposalsStore
 const { isAllFetched, proposals } = storeToRefs(proposalsStore)
 
